@@ -30,8 +30,8 @@ RUN apt-get update
 RUN sudo apt-get -y install build-essential git wget
 
 # Enable loopback audio
-RUN sudo apt-get -y install libasound2-dev libasound2 libasound2-data
-#RUN sudo modprobe snd-aloop
+# RUN sudo apt-get -y install libasound2-dev libasound2 libasound2-data
+# RUN sudo modprobe snd-aloop
 
 RUN cd /tmp
 
@@ -39,7 +39,7 @@ RUN cd /tmp
 RUN wget $WEB/$LIBRE.tar.gz
 RUN tar zxvf $LIBRE.tar.gz
 RUN cd $LIBRE
-RUN make
+RUN sudo make
 RUN sudo make install
 RUN cd ..
 RUN rm -rf $LIBRE*
@@ -48,7 +48,7 @@ RUN rm -rf $LIBRE*
 RUN wget $WEB/$LIBREM.tar.gz
 RUN tar zxvf $LIBREM.tar.gz
 RUN cd $LIBREM
-RUN make
+RUN sudo make
 RUN sudo make install
 RUN cd ..
 RUN rm -rf $LIBREM*
@@ -69,9 +69,9 @@ RUN sudo ldconfig
 RUN baresip -h
 
 # Enable Loopback
-RUN sed '/^audio_player/ { s/default/hw:0,0/ }' $HOME/.baresip/config
-RUN sed '/^audio_source/ { s/default/hw:0,1/ }' $HOME/.baresip/config
-RUN sed '/^audio_alert/ { s/audio_alert/#audio_alert/ }' $HOME/.baresip/config  
+# RUN sed '/^audio_player/ { s/default/hw:0,0/ }' $HOME/.baresip/config
+# RUN sed '/^audio_source/ { s/default/hw:0,1/ }' $HOME/.baresip/config
+# RUN sed '/^audio_alert/ { s/audio_alert/#audio_alert/ }' $HOME/.baresip/config  
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
