@@ -5,6 +5,7 @@ MAINTAINER L. Mangani <mangani@ntop.org>
 
 # Set correct environment variables.
 ENV HOME /root
+ENV TMP /tmp
 
 # Set locale to UTF8
 RUN locale-gen --no-purge en_US.UTF-8
@@ -30,37 +31,31 @@ RUN apt-get update
 RUN sudo apt-get -y install build-essential git wget
 
 # Enable loopback audio
-# RUN sudo apt-get -y install libasound2-dev libasound2 libasound2-data
+RUN sudo apt-get -y install libasound2-dev libasound2 libasound2-data
 # RUN sudo modprobe snd-aloop
 
-RUN cd /tmp
-
 # Install Libre
-RUN wget $WEB/$LIBRE.tar.gz
-RUN tar zxvf $LIBRE.tar.gz
-RUN cd ./$LIBRE && make && sudo make install
-RUN cd ..
-RUN rm -rf $LIBRE*
+RUN cd $TMP && wget $WEB/$LIBRE.tar.gz && tar zxvf $LIBRE.tar.gz
+RUN cd $TMP/$LIBRE && make && sudo make install
+RUN cd $TMP && rm -rf $LIBRE*
 
 # Install Librem
-RUN wget $WEB/$LIBREM.tar.gz
-RUN tar zxvf $LIBREM.tar.gz
-RUN cd ./$LIBREM && make && sudo make install
-RUN cd ..
-RUN rm -rf $LIBREM*
+RUN cd $TMP && wget $WEB/$LIBREM.tar.gz && tar zxvf $LIBREM.tar.gz
+RUN cd $TMP/$LIBREM && make && sudo make install
+RUN cd $TMP && rm -rf $LIBREM*
 
 # Install Baresip
-RUN wget $WEB/$BARESIP.tar.gz
-RUN tar zxvf $BARESIP.tar.gz
-RUN cd ./$BARESIP && make && sudo make install
-RUN cd ..
-RUN rm -rf $BARESIP*
+RUN cd $TMP && wget $WEB/$BARESIP.tar.gz && tar zxvf $BARESIP.tar.gz
+RUN cd $TMP/$BARESIP && make && sudo make install
+RUN cd $TMP && rm -rf $BARESIP*
  
 # Updating shared libs
 RUN sudo ldconfig
 
-# Test
-RUN baresip -h
+# Test Baresip and Exit
+RUN baresip -e "gsyq"
+
+RUN ls $HOME/.baresip
 
 # Enable Loopback
 # RUN sed '/^audio_player/ { s/default/hw:0,0/ }' $HOME/.baresip/config
@@ -69,6 +64,3 @@ RUN baresip -h
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# Re-Test
-RUN baresip -h
