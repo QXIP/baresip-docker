@@ -38,27 +38,21 @@ RUN cd /tmp
 # Install Libre
 RUN wget $WEB/$LIBRE.tar.gz
 RUN tar zxvf $LIBRE.tar.gz
-RUN cd ./$LIBRE
-RUN sudo make
-RUN sudo make install
+RUN cd ./$LIBRE && make && sudo make install
 RUN cd ..
 RUN rm -rf $LIBRE*
 
 # Install Librem
 RUN wget $WEB/$LIBREM.tar.gz
 RUN tar zxvf $LIBREM.tar.gz
-RUN cd ./$LIBREM
-RUN sudo make
-RUN sudo make install
+RUN cd ./$LIBREM && make && sudo make install
 RUN cd ..
 RUN rm -rf $LIBREM*
 
 # Install Baresip
 RUN wget $WEB/$BARESIP.tar.gz
 RUN tar zxvf $BARESIP.tar.gz
-RUN cd ./$BARESIP
-RUN make
-RUN sudo make install
+RUN cd ./$BARESIP && make && sudo make install
 RUN cd ..
 RUN rm -rf $BARESIP*
  
