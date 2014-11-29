@@ -21,8 +21,9 @@ RUN apt-get update
 RUN sudo apt-get -y install gcc make
 
 # Enable loopback audio
-RUN sudo apt-get -y install libasound2-dev
-RUN modprobe snd-aloop
+RUN sudo apt-get -y install libasound2-dev libasound2 libasound2-data
+RUN sudo apt-get -y install linux-image-extra-$(uname -r)
+RUN sudo modprobe snd-aloop
 
 RUN cd /tmp
 
@@ -30,7 +31,8 @@ RUN cd /tmp
 RUN wget $WEB/$LIBRE.tar.gz
 RUN tar zxvf $WEB/$LIBRE.tar.gz
 RUN cd $LIBRE
-RUN make && make install
+RUN make
+RUN sudo make install
 RUN cd ..
 RUN rm -rf $LIBRE*
 
@@ -38,7 +40,8 @@ RUN rm -rf $LIBRE*
 RUN wget $WEB/$LIBREM.tar.gz
 RUN tar zxvf $WEB/$LIBREM.tar.gz
 RUN cd $LIBREM
-RUN make && make install
+RUN make
+RUN sudo make install
 RUN cd ..
 RUN rm -rf $LIBREM*
 
@@ -46,7 +49,8 @@ RUN rm -rf $LIBREM*
 RUN wget $WEB/$BARESIP.tar.gz
 RUN tar zxvf $WEB/$BARESIP.tar.gz
 RUN cd $BARESIP
-RUN make && make install
+RUN make
+RUN sudo make install
 RUN cd ..
 RUN rm -rf $BARESIP*
  
