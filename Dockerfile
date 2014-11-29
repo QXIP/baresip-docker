@@ -26,7 +26,7 @@ RUN export BARESIP=baresip-0.4.11
 RUN apt-get update
  
 # Installing required packages
-RUN sudo apt-get -y install build-essential git
+RUN sudo apt-get -y install build-essential git wget
 
 # Enable loopback audio
 RUN sudo apt-get -y install libasound2-dev libasound2 libasound2-data
