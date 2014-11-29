@@ -17,12 +17,13 @@ ENV LC_ALL en_US.UTF-8
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-RUN export WEB=http://www.creytiv.com/pub
-RUN export LIBRE=re-0.4.10 
-RUN export LIBREM=rem-0.4.6 
-RUN export BARESIP=baresip-0.4.11
+# Set software versions to install
+ENV WEB http://www.creytiv.com/pub
+ENV LIBRE re-0.4.10 
+ENV LIBREM rem-0.4.6 
+ENV BARESIP baresip-0.4.11
 
-# Update & Install from NTOP Package
+# Update Apt
 RUN apt-get update
  
 # Installing required packages
