@@ -1,6 +1,8 @@
 # Baresip Docker
 
-FROM phusion/baseimage:0.9.15
+#FROM phusion/baseimage:0.9.15
+FROM ubuntu:14.04
+
 MAINTAINER L. Mangani <mangani@ntop.org>
 
 # Set correct environment variables.
@@ -32,7 +34,7 @@ RUN sudo apt-get -y install build-essential git wget
 
 # Enable loopback audio
 RUN sudo apt-get -y install libasound2-dev libasound2 libasound2-data module-init-tools
-RUN sudo modprobe snd-aloop
+#RUN sudo modprobe snd-aloop
 
 # Install Libre
 RUN cd $TMP && wget $WEB/$LIBRE.tar.gz && tar zxvf $LIBRE.tar.gz
@@ -49,19 +51,35 @@ RUN cd $HOME && mkdir .baresip && chmod 775 .baresip
 RUN cd $TMP && wget $WEB/$BARESIP.tar.gz && tar zxvf $BARESIP.tar.gz
 RUN cd $TMP/$BARESIP && make && sudo make install
 RUN cd $TMP && rm -rf $BARESIP*
+
+# Install Configuration
+RUN cd $TMP && git clone https://github.com/QXIP/baresip-docker.git
+RUN cd $TMP/baresip-docker && cp config/* $HOME/.baresip/
  
 # Updating shared libs
 RUN sudo ldconfig
 
-# Test Baresip and Exit
+# Test Baresip to initialize default config and Exit
 RUN baresip -e "syq"
 #RUN sudo baresip -h | echo
 
 RUN ls $HOME/.baresip
 
-RUN echo "Done!"
+# Port for control (default: 5555)
+EXPOSE 5555
 
-# Enable Loopback
+# Default Baresip run command arguments
+CMD ["-d"]
+
+# Set the entrypoint to memcached binary
+ENTRYPOINT baresip
+
+# Disable Audio Defaults
+RUN sed '/^audio_player/ { s/audio_player/#audio_player/ }' $HOME/.baresip/config  
+RUN sed '/^audio_source/ { s/audio_source/#audio_source/ }' $HOME/.baresip/config 
+RUN sed '/^audio_alert/ { s/audio_alert/#audio_alert/ }' $HOME/.baresip/config 
+
+# Enable Alsa Loopback (snd-loop)
 # RUN sed '/^audio_player/ { s/default/hw:0,0/ }' $HOME/.baresip/config
 # RUN sed '/^audio_source/ { s/default/hw:0,1/ }' $HOME/.baresip/config
 # RUN sed '/^audio_alert/ { s/audio_alert/#audio_alert/ }' $HOME/.baresip/config  
