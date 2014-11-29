@@ -10,7 +10,9 @@ ENV HOME /root
 CMD ["/sbin/my_init"]
 
 RUN export WEB=http://www.creytiv.com/pub
-RUN export ARRAY=( re-0.4.10 rem-0.4.6 baresip-0.4.11 )
+RUN export LIBRE=re-0.4.10 
+RUN export LIBREM=rem-0.4.6 
+RUN export BARESIP=baresip-0.4.11 )
 
 # Update & Install from NTOP Package
 RUN apt-get update
@@ -25,28 +27,28 @@ RUN modprobe snd-aloop
 RUN cd /tmp
 
 # Install Libre
-RUN wget $WEB/${ARRAY[0]}.tar.gz
-RUN tar zxvf $WEB/${ARRAY[0]}.tar.gz
-RUN cd ${ARRAY[0]}
+RUN wget $WEB/$LIBRE.tar.gz
+RUN tar zxvf $WEB/$LIBRE.tar.gz
+RUN cd $LIBRE
 RUN make && make install
 RUN cd ..
-RUN rm -rf ${ARRAY[0]}*
+RUN rm -rf $LIBRE*
 
 # Install Librem
-RUN wget $WEB/${ARRAY[1]}.tar.gz
-RUN tar zxvf $WEB/${ARRAY[1]}.tar.gz
-RUN cd ${ARRAY[1]}
+RUN wget $WEB/$LIBREM.tar.gz
+RUN tar zxvf $WEB/$LIBREM.tar.gz
+RUN cd $LIBREM
 RUN make && make install
 RUN cd ..
-RUN rm -rf ${ARRAY[1]}*
+RUN rm -rf $LIBREM*
 
 # Install Baresip
-RUN wget $WEB/${ARRAY[2]}.tar.gz
-RUN tar zxvf $WEB/${ARRAY[2]}.tar.gz
-RUN cd ${ARRAY[2]}
+RUN wget $WEB/$BARESIP.tar.gz
+RUN tar zxvf $WEB/$BARESIP.tar.gz
+RUN cd $BARESIP
 RUN make && make install
 RUN cd ..
-RUN rm -rf ${ARRAY[2]}*
+RUN rm -rf $BARESIP*
  
 # Updating shared libs
 RUN sudo ldconfig
@@ -61,3 +63,6 @@ RUN sed '/^audio_alert/ { s/audio_alert/#audio_alert/ }' $HOME/.baresip/config
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Re-Test
+RUN baresip -h
