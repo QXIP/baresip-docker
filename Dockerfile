@@ -29,12 +29,21 @@ do
     cd $i/
     make
     sudo make install
+    # Cleanup
     cd ..
     rm -rf $i $i.tar.gz
 done
  
 # Updating shared libs
 sudo ldconfig
+
+# Test
+baresip -h
+
+# Enable Loopback
+sed '/^audio_player/ { s/default/hw:0,0/ }' $HOME/.baresip/config
+sed '/^audio_source/ { s/default/hw:0,1/ }' $HOME/.baresip/config
+sed '/^audio_alert/ { s/audio_alert/#audio_alert/ }' $HOME/.baresip/config  
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
