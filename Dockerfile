@@ -9,8 +9,8 @@ ENV HOME /root
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-RUN WEB=http://www.creytiv.com/pub
-RUN ARRAY=( re-0.4.10 rem-0.4.6 baresip-0.4.11 )
+RUN export WEB=http://www.creytiv.com/pub
+RUN export ARRAY=( re-0.4.10 rem-0.4.6 baresip-0.4.11 )
 
 # Update & Install from NTOP Package
 RUN apt-get update
