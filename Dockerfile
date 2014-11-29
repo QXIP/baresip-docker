@@ -53,7 +53,9 @@ RUN cd $TMP && rm -rf $BARESIP*
 RUN sudo ldconfig
 
 # Test Baresip and Exit
-RUN baresip -e "gsyq"
+# RUN baresip -e "gsyq"
+RUN baresip -h | echo
+
 
 RUN ls $HOME/.baresip
 
