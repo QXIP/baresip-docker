@@ -54,22 +54,22 @@ RUN cd $TMP && rm -rf $BARESIP*
 
 # Install Configuration
 RUN cd $TMP && git clone https://github.com/QXIP/baresip-docker.git
-RUN cd $TMP/baresip-docker && cp config/* $HOME/.baresip/
- 
+RUN cd $TMP/baresip-docker && cp .baresip/* $HOME/.baresip/ && cp .asoundrc $HOME/
+
 # Updating shared libs
 RUN sudo ldconfig
 
 # Test Baresip to initialize default config and Exit
-RUN baresip -e "syq"
+RUN baresip -e "syq" -f $HOME/.baresip
 #RUN sudo baresip -h | echo
 
 RUN ls $HOME/.baresip
 
-# Port for control (default: 5555)
-EXPOSE 5555
+# Ports for Service (SIP,RTP) and Control (HTTP,TCP)
+EXPOSE 5060 10000-20000 8000 5555
 
 # Default Baresip run command arguments
-CMD ["-d"]
+CMD ["-d","-f","$HOME/.baresip"]
 
 # Set the entrypoint to memcached binary
 ENTRYPOINT baresip
