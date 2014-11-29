@@ -66,23 +66,12 @@ RUN baresip -e "syq" -f $HOME/.baresip
 RUN ls $HOME/.baresip
 
 # Ports for Service (SIP,RTP) and Control (HTTP,TCP)
-EXPOSE 5060 10000-20000 8000 5555
+EXPOSE 5060 10000 10001 10002 10003 10004 10005 10006 10007 10008 10009 10010 10011 10012 10013 10014 10015 10016 10017 10018 10019 10020 8000 5555
 
 # Default Baresip run command arguments
-CMD ["-d","-f","$HOME/.baresip"]
+# CMD ["baresip", "-d","-f","/root/.baresip"]
+CMD baresip -d -f $HOME/.baresip
 
-# Set the entrypoint to memcached binary
-ENTRYPOINT baresip
-
-# Disable Audio Defaults
-RUN sed '/^audio_player/ { s/audio_player/#audio_player/ }' $HOME/.baresip/config  
-RUN sed '/^audio_source/ { s/audio_source/#audio_source/ }' $HOME/.baresip/config 
-RUN sed '/^audio_alert/ { s/audio_alert/#audio_alert/ }' $HOME/.baresip/config 
-
-# Enable Alsa Loopback (snd-loop)
-# RUN sed '/^audio_player/ { s/default/hw:0,0/ }' $HOME/.baresip/config
-# RUN sed '/^audio_source/ { s/default/hw:0,1/ }' $HOME/.baresip/config
-# RUN sed '/^audio_alert/ { s/audio_alert/#audio_alert/ }' $HOME/.baresip/config  
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
