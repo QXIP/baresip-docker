@@ -12,7 +12,7 @@ CMD ["/sbin/my_init"]
 RUN export WEB=http://www.creytiv.com/pub
 RUN export LIBRE=re-0.4.10 
 RUN export LIBREM=rem-0.4.6 
-RUN export BARESIP=baresip-0.4.11 )
+RUN export BARESIP=baresip-0.4.11
 
 # Update & Install from NTOP Package
 RUN apt-get update
