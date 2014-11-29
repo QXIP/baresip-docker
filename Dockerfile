@@ -45,6 +45,7 @@ RUN cd $TMP/$LIBREM && make && sudo make install
 RUN cd $TMP && rm -rf $LIBREM*
 
 # Install Baresip
+RUN cd $HOME && mkdir .baresip && chmod 775 .baresip
 RUN cd $TMP && wget $WEB/$BARESIP.tar.gz && tar zxvf $BARESIP.tar.gz
 RUN cd $TMP/$BARESIP && make && sudo make install
 RUN cd $TMP && rm -rf $BARESIP*
