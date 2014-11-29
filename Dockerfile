@@ -6,6 +6,14 @@ MAINTAINER L. Mangani <mangani@ntop.org>
 # Set correct environment variables.
 ENV HOME /root
 
+# Set locale to UTF8
+RUN locale-gen --no-purge en_US.UTF-8
+RUN update-locale LANG=en_US.UTF-8
+RUN dpkg-reconfigure locales
+ENV LANGUAGE en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
@@ -18,12 +26,11 @@ RUN export BARESIP=baresip-0.4.11
 RUN apt-get update
  
 # Installing required packages
-RUN sudo apt-get -y install gcc make
+RUN sudo apt-get -y install build-essential git
 
 # Enable loopback audio
 RUN sudo apt-get -y install libasound2-dev libasound2 libasound2-data
-RUN sudo apt-get -y install linux-image-extra-$(uname -r)
-RUN sudo modprobe snd-aloop
+#RUN sudo modprobe snd-aloop
 
 RUN cd /tmp
 
