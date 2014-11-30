@@ -34,7 +34,7 @@ RUN sudo apt-get -y install build-essential git wget
 
 # Enable loopback audio
 RUN sudo apt-get -y install libasound2-dev libasound2 libasound2-data module-init-tools
-RUN sudo modprobe snd-aloop
+# RUN sudo modprobe snd-aloop
 
 # Install Libre
 RUN cd $TMP && wget $WEB/$LIBRE.tar.gz && tar zxvf $LIBRE.tar.gz
