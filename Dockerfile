@@ -18,7 +18,7 @@ ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
 # Use baseimage-docker's init system.
-CMD ["/sbin/my_init"]
+# CMD ["/sbin/my_init"]
 
 # Set software versions to install
 ENV WEB http://www.creytiv.com/pub
@@ -34,7 +34,7 @@ RUN sudo apt-get -y install build-essential git wget
 
 # Enable loopback audio
 RUN sudo apt-get -y install libasound2-dev libasound2 libasound2-data module-init-tools
-#RUN sudo modprobe snd-aloop
+RUN sudo modprobe snd-aloop
 
 # Install Libre
 RUN cd $TMP && wget $WEB/$LIBRE.tar.gz && tar zxvf $LIBRE.tar.gz
