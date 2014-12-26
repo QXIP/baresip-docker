@@ -60,13 +60,13 @@ RUN cd $TMP/baresip-docker && cp .baresip/* $HOME/.baresip/ && cp .asoundrc $HOM
 RUN sudo ldconfig
 
 # Test Baresip to initialize default config and Exit
-RUN baresip -e "syq" -f $HOME/.baresip
+RUN baresip -t -f $HOME/.baresip
 #RUN sudo baresip -h | echo
 
 RUN ls $HOME/.baresip
 
 # Ports for Service (SIP,RTP) and Control (HTTP,TCP)
-EXPOSE 5060 10000 10001 10002 10003 10004 10005 10006 10007 10008 10009 10010 10011 10012 10013 10014 10015 10016 10017 10018 10019 10020 8000 5555
+EXPOSE 5060 5061 10000 10001 10002 10003 10004 10005 10006 10007 10008 10009 10010 10011 10012 10013 10014 10015 10016 10017 10018 10019 10020 8000 5555
 
 # Default Baresip run command arguments
 # CMD ["baresip", "-d","-f","/root/.baresip"]
