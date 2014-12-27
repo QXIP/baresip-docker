@@ -25,6 +25,7 @@ ENV WEB http://www.creytiv.com/pub
 ENV LIBRE re-0.4.10 
 ENV LIBREM rem-0.4.6 
 ENV BARESIP baresip-0.4.11
+ENV BARESIPGIT https://github.com/alberth/baresip
 
 # Update Apt
 RUN apt-get update
@@ -46,13 +47,18 @@ RUN cd $TMP && wget $WEB/$LIBREM.tar.gz && tar zxvf $LIBREM.tar.gz
 RUN cd $TMP/$LIBREM && make && sudo make install
 RUN cd $TMP && rm -rf $LIBREM*
 
-# Install Baresip
-RUN cd $HOME && mkdir .baresip && chmod 775 .baresip
-RUN cd $TMP && wget $WEB/$BARESIP.tar.gz && tar zxvf $BARESIP.tar.gz
-RUN cd $TMP/$BARESIP && make && sudo make install
-RUN cd $TMP && rm -rf $BARESIP*
+  # Install Baresip
+  # RUN cd $HOME && mkdir .baresip && chmod 775 .baresip
+  # RUN cd $TMP && wget $WEB/$BARESIP.tar.gz && tar zxvf $BARESIP.tar.gz
+  # RUN cd $TMP/$BARESIP && make && sudo make install
+  # RUN cd $TMP && rm -rf $BARESIP*
+
+# Install Baresip from GIT
+RUN cd $TMP && git clone $BARESIPGIT baresip && cd $TMP/baresip && make && sudo make install
+RUN cd $TMP && rm -rf baresip
 
 # Install Configuration
+RUN cd $HOME && mkdir .baresip && chmod 775 .baresip
 RUN cd $TMP && git clone https://github.com/QXIP/baresip-docker.git
 RUN cd $TMP/baresip-docker && cp .baresip/* $HOME/.baresip/ && cp .asoundrc $HOME/
 
