@@ -25,7 +25,7 @@ ENV WEB http://www.creytiv.com/pub
 ENV LIBRE re-0.4.10 
 ENV LIBREM rem-0.4.6 
 ENV BARESIP baresip-0.4.11
-ENV BARESIPGIT https://github.com/alberth/baresip
+ENV BARESIPGIT https://github.com/alfredh/baresip.git
 
 # Update Apt
 RUN apt-get update
