@@ -1,4 +1,4 @@
-# Baresip Docker
+# Baresip Docker (GIT)
 
 #FROM phusion/baseimage:0.9.15
 FROM ubuntu:14.04
