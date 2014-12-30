@@ -31,10 +31,11 @@ ENV BARESIPGIT https://github.com/alfredh/baresip.git
 RUN apt-get update
  
 # Installing required packages
-RUN sudo apt-get -y install build-essential git wget
+RUN sudo apt-get -y install build-essential git wget curl
 
 # Enable loopback audio
 RUN sudo apt-get -y install libasound2-dev libasound2 libasound2-data module-init-tools
+RUN sudo modprobe snd-dummy
 # RUN sudo modprobe snd-aloop
 
 # Install Libre
