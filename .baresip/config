@@ -18,7 +18,8 @@ sip_trans_bsize         128
 # Audio
 audio_dev               alsa
 audio_player            alsa,hw:0,0
-audio_source            alsa,hw:0,1
+#audio_source            alsa,hw:0,1
+audio_source            gst,http://eclipse.galaxywebsolutions.com:7450/stream
 audio_alert            alsa,hw:0,0
 audio_srate             8000-48000
 audio_channels          1-2
@@ -105,7 +106,7 @@ module                  alsa.so
 
 # Audio/Video source modules
 #module                 rst.so
-#module                 gst.so
+module                 gst.so
 
 # Media NAT modules
 module                  stun.so
