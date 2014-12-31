@@ -33,10 +33,13 @@ RUN apt-get update
 # Installing required packages
 RUN sudo apt-get -y install build-essential git wget curl
 
-# Enable loopback audio
-RUN sudo apt-get -y install libasound2-dev libasound2 libasound2-data module-init-tools
-RUN sudo modprobe snd-dummy
+# Enable audio I/O (alsa, sndfile, gst)
+RUN sudo apt-get -y install libasound2-dev libasound2 libasound2-data module-init-tools libsndfile1-dev
+# RUN sudo modprobe snd-dummy
 # RUN sudo modprobe snd-aloop
+
+# Install GStreamer
+RUN sudo apt-get -y install gstreamer0.10-alsa gstreamer0.10-doc gstreamer0.10-ff* gstreamer0.10-tools gstreamer0.10-x gstreamer0.10-plugins-bad gstreamer0.10-plugins-base gstreamer0.10-plugins-good gstreamer0.10-plugins-ugly libgstreamer-plugins-base0.10-0 libgstreamer-plugins-base0.10-dev libgstreamer0.10-0 libgstreamer0.10-dev
 
 # Install Libre
 RUN cd $TMP && wget $WEB/$LIBRE.tar.gz && tar zxvf $LIBRE.tar.gz
