@@ -81,7 +81,7 @@ EXPOSE 5060 5061 10000 10001 10002 10003 10004 10005 10006 10007 10008 10009 100
 # Default Baresip run command arguments
 # CMD ["baresip", "-d","-f","/root/.baresip"]
 CMD baresip -d -f $HOME/.baresip
-
+CMD curl http://127.0.0.1:8000/raw/?Rsip:root:root@localhost && sleep 5 && curl http://127.0.0.1:8000/raw/?dbaresip@conference.sip2sip.info && sleep 240 && curl http://127.0.0.1:8000/raw/?bq
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
