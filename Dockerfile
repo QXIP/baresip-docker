@@ -64,7 +64,8 @@ RUN cd $TMP && rm -rf baresip
 # Install Configuration from self
 RUN cd $HOME && mkdir baresip && chmod 775 baresip
 RUN cd $TMP && git clone https://github.com/QXIP/baresip-docker.git
-RUN cd $TMP/baresip-docker && cp .baresip/* $HOME/.baresip/ && cp .asoundrc $HOME/
+RUN sudo cp $TMP/baresip-docker/.baresip/* $HOME/.baresip/ && sudo cp $TMP/baresip-docker/.asoundrc $HOME/
+RUN rm -rf $TMP/baresip-docker
 
 # Updating shared libs
 RUN sudo ldconfig
@@ -72,8 +73,10 @@ RUN sudo ldconfig
 # Test Baresip to initialize default config and Exit
 RUN baresip -t -f $HOME/.baresip
 #RUN sudo baresip -h | echo
+#RUN ls $HOME/.baresip
 
-RUN ls $HOME/.baresip
+# Clean up
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Ports for Service (SIP,RTP) and Control (HTTP,TCP)
 EXPOSE 5060 5061 10000-10020 8000 5555
@@ -82,5 +85,4 @@ EXPOSE 5060 5061 10000-10020 8000 5555
 # CMD ["baresip", "-d","-f","/root/.baresip"]
 CMD baresip -d -f $HOME/.baresip && sleep 2 && curl http://127.0.0.1:8000/raw/?Rsip:root:root@127.0.0.1 && sleep 5 && curl http://127.0.0.1:8000/raw/?dbaresip@conference.sip2sip.info && sleep 60 && curl http://127.0.0.1:8000/raw/?bq
 
-# Clean up
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
