@@ -1,13 +1,16 @@
 # Baresip Docker (GIT)
 
-#FROM phusion/baseimage:0.9.15
-FROM ubuntu:14.04
+FROM phusion/baseimage:latest
+#FROM ubuntu:14.04
 
 MAINTAINER L. Mangani <mangani@ntop.org>
 
 # Set correct environment variables.
 ENV HOME /root
 ENV TMP /tmp
+
+# Use baseimage-docker's init system.
+CMD ["/sbin/my_init"]
 
 # Set locale to UTF8
 RUN locale-gen --no-purge en_US.UTF-8
