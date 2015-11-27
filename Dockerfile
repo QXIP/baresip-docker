@@ -22,9 +22,9 @@ ENV LC_ALL en_US.UTF-8
 
 # Set software versions to install
 ENV WEB http://www.creytiv.com/pub
-ENV LIBRE re-0.4.10 
+ENV LIBRE re-0.4.14 
 ENV LIBREM rem-0.4.6 
-ENV BARESIP baresip-0.4.11
+ENV BARESIP baresip-0.4.15
 ENV BARESIPGIT https://github.com/alfredh/baresip.git
 
 # Update Apt
@@ -61,8 +61,8 @@ RUN cd $TMP && rm -rf $LIBREM*
 RUN cd $TMP && git clone $BARESIPGIT baresip && cd $TMP/baresip && make && sudo make install
 RUN cd $TMP && rm -rf baresip
 
-# Install Configuration
-RUN cd $HOME && mkdir .baresip && chmod 775 .baresip
+# Install Configuration from self
+RUN cd $HOME && mkdir baresip && chmod 775 baresip
 RUN cd $TMP && git clone https://github.com/QXIP/baresip-docker.git
 RUN cd $TMP/baresip-docker && cp .baresip/* $HOME/.baresip/ && cp .asoundrc $HOME/
 
@@ -76,7 +76,7 @@ RUN baresip -t -f $HOME/.baresip
 RUN ls $HOME/.baresip
 
 # Ports for Service (SIP,RTP) and Control (HTTP,TCP)
-EXPOSE 5060 5061 10000 10001 10002 10003 10004 10005 10006 10007 10008 10009 10010 10011 10012 10013 10014 10015 10016 10017 10018 10019 10020 8000 5555
+EXPOSE 5060 5061 10000-10020 8000 5555
 
 # Default Baresip run command arguments
 # CMD ["baresip", "-d","-f","/root/.baresip"]
