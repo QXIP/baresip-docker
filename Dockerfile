@@ -67,7 +67,8 @@ RUN cd $TMP && rm -rf baresip
 # Install Configuration from self
 RUN cd $HOME && mkdir baresip && chmod 775 baresip
 RUN cd $TMP && git clone https://github.com/QXIP/baresip-docker.git
-RUN sudo cp $TMP/baresip-docker/.baresip/* $HOME/.baresip/ && sudo cp $TMP/baresip-docker/.asoundrc $HOME/
+RUN sudo cp $TMP/baresip-docker/.baresip $HOME/
+RUN sudo cp $TMP/baresip-docker/.asoundrc $HOME/
 RUN rm -rf $TMP/baresip-docker
 
 # Updating shared libs
