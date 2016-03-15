@@ -5,7 +5,7 @@ Baresip docker container
 
 ## Features:
 
-* Baresip v0.4.11
+* Baresip v0.4.18
   - *HTTPD Module*
   - *CONS Module*
   - *ALSA Loopback (snd-aloop)*
