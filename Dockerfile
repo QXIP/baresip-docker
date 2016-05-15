@@ -25,7 +25,7 @@ ENV LC_ALL en_US.UTF-8
 
 # Set software versions to install
 ENV WEB http://www.creytiv.com/pub
-ENV LIBRE re-0.4.15 
+ENV LIBRE re-0.4.16 
 ENV LIBREM rem-0.4.7 
 ENV BARESIP baresip-0.4.18
 ENV BARESIPGIT https://github.com/alfredh/baresip.git
