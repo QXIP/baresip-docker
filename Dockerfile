@@ -3,7 +3,7 @@
 FROM phusion/baseimage:latest
 #FROM ubuntu:14.04
 
-MAINTAINER L. Mangani <mangani@ntop.org>
+MAINTAINER L. Mangani <lorenzo.mangani@gmail.com>
 
 # Set correct environment variables.
 ENV HOME /root
