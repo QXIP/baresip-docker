@@ -43,12 +43,10 @@ RUN apt-get update \
 && apt-get -y install gstreamer0.10-alsa gstreamer0.10-doc gstreamer0.10-ff* gstreamer0.10-tools gstreamer0.10-x gstreamer0.10-plugins-bad gstreamer0.10-plugins-base gstreamer0.10-plugins-good gstreamer0.10-plugins-ugly libgstreamer-plugins-base0.10-0 libgstreamer-plugins-base0.10-dev libgstreamer0.10-0 libgstreamer0.10-dev \
 
 # Install Libre
-RUN cd $TMP && wget $WEB/$LIBRE.tar.gz && tar zxvf $LIBRE.tar.gz \
-&& cd $TMP/$LIBRE && make && sudo make install 
+RUN cd $TMP && wget $WEB/$LIBRE.tar.gz && tar zxvf $LIBRE.tar.gz && cd $TMP/$LIBRE && make && make install 
 
 # Install Librem
-RUN cd $TMP && wget $WEB/$LIBREM.tar.gz && tar zxvf $LIBREM.tar.gz \
-&& cd $TMP/$LIBREM && make && sudo make install 
+RUN cd $TMP && wget $WEB/$LIBREM.tar.gz && tar zxvf $LIBREM.tar.gz && cd $TMP/$LIBREM && make && make install 
 
   # Install Baresip
   # RUN cd $HOME && mkdir .baresip && chmod 775 .baresip
@@ -57,7 +55,7 @@ RUN cd $TMP && wget $WEB/$LIBREM.tar.gz && tar zxvf $LIBREM.tar.gz \
   # RUN cd $TMP && rm -rf $BARESIP*
 
 # Install Baresip from GIT
-RUN cd $TMP && git clone $BARESIPGIT baresip && cd $TMP/baresip && make && sudo make install 
+RUN cd $TMP && git clone $BARESIPGIT baresip && cd $TMP/baresip && make && make install 
 
 # Install Configuration from self
 RUN cd $HOME && mkdir baresip && chmod 775 baresip \
