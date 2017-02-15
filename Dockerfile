@@ -44,13 +44,11 @@ RUN apt-get update \
 
 # Install Libre
 RUN cd $TMP && wget $WEB/$LIBRE.tar.gz && tar zxvf $LIBRE.tar.gz \
-&& cd $TMP/$LIBRE && make && sudo make install \
-&& cd $TMP && rm -rf $LIBRE*
+&& cd $TMP/$LIBRE && make && sudo make install 
 
 # Install Librem
 RUN cd $TMP && wget $WEB/$LIBREM.tar.gz && tar zxvf $LIBREM.tar.gz \
-&& cd $TMP/$LIBREM && make && sudo make install \
-&& cd $TMP && rm -rf $LIBREM*
+&& cd $TMP/$LIBREM && make && sudo make install 
 
   # Install Baresip
   # RUN cd $HOME && mkdir .baresip && chmod 775 .baresip
@@ -59,8 +57,7 @@ RUN cd $TMP && wget $WEB/$LIBREM.tar.gz && tar zxvf $LIBREM.tar.gz \
   # RUN cd $TMP && rm -rf $BARESIP*
 
 # Install Baresip from GIT
-RUN cd $TMP && git clone $BARESIPGIT baresip && cd $TMP/baresip && make && sudo make install \
-&& cd $TMP && rm -rf baresip
+RUN cd $TMP && git clone $BARESIPGIT baresip && cd $TMP/baresip && make && sudo make install 
 
 # Install Configuration from self
 RUN cd $HOME && mkdir baresip && chmod 775 baresip \
