@@ -32,15 +32,15 @@ ENV BARESIPGIT https://github.com/alfredh/baresip.git
 RUN apt-get update \
  
 # Installing required packages
-&& sudo apt-get -y install build-essential git wget curl sudo \
+&& apt-get -y install build-essential git wget curl \
 
 # Enable audio I/O (alsa, sndfile, gst)
-&& sudo apt-get -y install libasound2-dev libasound2 libasound2-data module-init-tools libsndfile1-dev gstreamer0.10-alsa \
+&& apt-get -y install libasound2-dev libasound2 libasound2-data module-init-tools libsndfile1-dev gstreamer0.10-alsa \
 # RUN sudo modprobe snd-dummy
 # RUN sudo modprobe snd-aloop
 
 # Install GStreamer
-&& sudo apt-get -y install gstreamer0.10-alsa gstreamer0.10-doc gstreamer0.10-ff* gstreamer0.10-tools gstreamer0.10-x gstreamer0.10-plugins-bad gstreamer0.10-plugins-base gstreamer0.10-plugins-good gstreamer0.10-plugins-ugly libgstreamer-plugins-base0.10-0 libgstreamer-plugins-base0.10-dev libgstreamer0.10-0 libgstreamer0.10-dev \
+&& apt-get -y install gstreamer0.10-alsa gstreamer0.10-doc gstreamer0.10-ff* gstreamer0.10-tools gstreamer0.10-x gstreamer0.10-plugins-bad gstreamer0.10-plugins-base gstreamer0.10-plugins-good gstreamer0.10-plugins-ugly libgstreamer-plugins-base0.10-0 libgstreamer-plugins-base0.10-dev libgstreamer0.10-0 libgstreamer0.10-dev \
 
 # Install Libre
 RUN cd $TMP && wget $WEB/$LIBRE.tar.gz && tar zxvf $LIBRE.tar.gz \
@@ -65,12 +65,12 @@ RUN cd $TMP && git clone $BARESIPGIT baresip && cd $TMP/baresip && make && sudo 
 # Install Configuration from self
 RUN cd $HOME && mkdir baresip && chmod 775 baresip \
 && cd $TMP && git clone https://github.com/QXIP/baresip-docker.git \
-&& sudo cp -R $TMP/baresip-docker/.baresip $HOME/ \
-&& sudo cp $TMP/baresip-docker/.asoundrc $HOME/ \
+&& cp -R $TMP/baresip-docker/.baresip $HOME/ \
+&& cp $TMP/baresip-docker/.asoundrc $HOME/ \
 && rm -rf $TMP/baresip-docker 
 
 # Updating shared libs
-RUN sudo ldconfig
+RUN ldconfig
 
 # Test Baresip to initialize default config and Exit
 RUN baresip -t -f $HOME/.baresip
