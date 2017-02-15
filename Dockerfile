@@ -13,9 +13,7 @@ ENV TMP /tmp
 CMD ["/sbin/my_init"]
 
 # Set locale to UTF8
-RUN locale-gen --no-purge en_US.UTF-8
-RUN update-locale LANG=en_US.UTF-8
-RUN dpkg-reconfigure locales
+RUN locale-gen --no-purge en_US.UTF-8 && update-locale LANG=en_US.UTF-8 && dpkg-reconfigure locales
 ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
@@ -25,34 +23,34 @@ ENV LC_ALL en_US.UTF-8
 
 # Set software versions to install
 ENV WEB http://www.creytiv.com/pub
-ENV LIBRE re-0.4.16 
+ENV LIBRE re-0.4.17 
 ENV LIBREM rem-0.4.7 
-ENV BARESIP baresip-0.4.19
+ENV BARESIP baresip-0.4.20
 ENV BARESIPGIT https://github.com/alfredh/baresip.git
 
 # Update Apt
-RUN apt-get update
+RUN apt-get update \
  
 # Installing required packages
-RUN sudo apt-get -y install build-essential git wget curl
+&& sudo apt-get -y install build-essential git wget curl \
 
 # Enable audio I/O (alsa, sndfile, gst)
-RUN sudo apt-get -y install libasound2-dev libasound2 libasound2-data module-init-tools libsndfile1-dev
+&& sudo apt-get -y install libasound2-dev libasound2 libasound2-data module-init-tools libsndfile1-dev gstreamer0.10-alsa \
 # RUN sudo modprobe snd-dummy
 # RUN sudo modprobe snd-aloop
 
 # Install GStreamer
-RUN sudo apt-get -y install gstreamer0.10-alsa gstreamer0.10-doc gstreamer0.10-ff* gstreamer0.10-tools gstreamer0.10-x gstreamer0.10-plugins-bad gstreamer0.10-plugins-base gstreamer0.10-plugins-good gstreamer0.10-plugins-ugly libgstreamer-plugins-base0.10-0 libgstreamer-plugins-base0.10-dev libgstreamer0.10-0 libgstreamer0.10-dev
+&& sudo apt-get -y install gstreamer0.10-alsa gstreamer0.10-doc gstreamer0.10-ff* gstreamer0.10-tools gstreamer0.10-x gstreamer0.10-plugins-bad gstreamer0.10-plugins-base gstreamer0.10-plugins-good gstreamer0.10-plugins-ugly libgstreamer-plugins-base0.10-0 libgstreamer-plugins-base0.10-dev libgstreamer0.10-0 libgstreamer0.10-dev \
 
 # Install Libre
-RUN cd $TMP && wget $WEB/$LIBRE.tar.gz && tar zxvf $LIBRE.tar.gz
-RUN cd $TMP/$LIBRE && make && sudo make install
-RUN cd $TMP && rm -rf $LIBRE*
+RUN cd $TMP && wget $WEB/$LIBRE.tar.gz && tar zxvf $LIBRE.tar.gz \
+&& cd $TMP/$LIBRE && make && sudo make install \
+&& cd $TMP && rm -rf $LIBRE*
 
 # Install Librem
-RUN cd $TMP && wget $WEB/$LIBREM.tar.gz && tar zxvf $LIBREM.tar.gz
-RUN cd $TMP/$LIBREM && make && sudo make install
-RUN cd $TMP && rm -rf $LIBREM*
+RUN cd $TMP && wget $WEB/$LIBREM.tar.gz && tar zxvf $LIBREM.tar.gz \
+&& cd $TMP/$LIBREM && make && sudo make install \
+&& cd $TMP && rm -rf $LIBREM*
 
   # Install Baresip
   # RUN cd $HOME && mkdir .baresip && chmod 775 .baresip
@@ -61,15 +59,15 @@ RUN cd $TMP && rm -rf $LIBREM*
   # RUN cd $TMP && rm -rf $BARESIP*
 
 # Install Baresip from GIT
-RUN cd $TMP && git clone $BARESIPGIT baresip && cd $TMP/baresip && make && sudo make install
-RUN cd $TMP && rm -rf baresip
+RUN cd $TMP && git clone $BARESIPGIT baresip && cd $TMP/baresip && make && sudo make install \
+&& cd $TMP && rm -rf baresip
 
 # Install Configuration from self
-RUN cd $HOME && mkdir baresip && chmod 775 baresip
-RUN cd $TMP && git clone https://github.com/QXIP/baresip-docker.git
-RUN sudo cp -R $TMP/baresip-docker/.baresip $HOME/
-RUN sudo cp $TMP/baresip-docker/.asoundrc $HOME/
-RUN rm -rf $TMP/baresip-docker
+RUN cd $HOME && mkdir baresip && chmod 775 baresip \
+&& cd $TMP && git clone https://github.com/QXIP/baresip-docker.git \
+&& sudo cp -R $TMP/baresip-docker/.baresip $HOME/ \
+&& sudo cp $TMP/baresip-docker/.asoundrc $HOME/ \
+&& rm -rf $TMP/baresip-docker 
 
 # Updating shared libs
 RUN sudo ldconfig
@@ -86,7 +84,5 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 EXPOSE 5060 5061 10000-10020 8000 5555
 
 # Default Baresip run command arguments
-# CMD ["baresip", "-d","-f","/root/.baresip"]
-CMD baresip -d -f $HOME/.baresip && sleep 2 && curl http://127.0.0.1:8000/raw/?Rsip:root:root@127.0.0.1 && sleep 5 && curl http://127.0.0.1:8000/raw/?dbaresip@conference.sip2sip.info && sleep 60 && curl http://127.0.0.1:8000/raw/?bq
-
-
+CMD ["baresip", "-d","-f","/root/.baresip"]
+#CMD baresip -d -f $HOME/.baresip && sleep 2 && curl http://127.0.0.1:8000/raw/?Rsip:root:root@127.0.0.1 && sleep 5 && curl http://127.0.0.1:8000/raw/?dbaresip@conference.sip2sip.info && sleep 60 && curl http://127.0.0.1:8000/raw/?bq
