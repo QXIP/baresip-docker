@@ -32,7 +32,7 @@ ENV BARESIPGIT https://github.com/alfredh/baresip.git
 RUN apt-get update \
  
 # Installing required packages
-&& sudo apt-get -y install build-essential git wget curl \
+&& sudo apt-get -y install build-essential git wget curl sudo \
 
 # Enable audio I/O (alsa, sndfile, gst)
 && sudo apt-get -y install libasound2-dev libasound2 libasound2-data module-init-tools libsndfile1-dev gstreamer0.10-alsa \
