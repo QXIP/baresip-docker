@@ -44,10 +44,10 @@ RUN apt-get update \
 && apt-get -y install gstreamer0.10-alsa gstreamer0.10-tools gstreamer0.10-x gstreamer0.10-plugins-base gstreamer0.10-plugins-good libgstreamer-plugins-base0.10-0 libgstreamer-plugins-base0.10-dev libgstreamer0.10-0 libgstreamer0.10-dev
 
 # Install Libre
-RUN cd $TMP && wget $WEB/$LIBRE.tar.gz && tarzxvf $LIBRE.tar.gz && cd $LIBRE && make && make install 
+RUN cd $TMP && wget $WEB/$LIBRE.tar.gz && tar zxvf $LIBRE.tar.gz && cd $LIBRE && make && make install 
 
 # Install Librem
-RUN cd $TMP && wget $WEB/$LIBREM.tar.gz && tarzxvf $LIBREM.tar.gz && cd $LIBREM && make && make install 
+RUN cd $TMP && wget $WEB/$LIBREM.tar.gz && tar zxvf $LIBREM.tar.gz && cd $LIBREM && make && make install 
 
   # Install Baresip
   # RUN cd $HOME && mkdir .baresip && chmod 775 .baresip
