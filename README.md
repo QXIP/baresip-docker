@@ -13,7 +13,7 @@ Baresip docker container
 ## Install:
 ```
 docker pull qxip/baresip-docker
-docker run -name baresip -t -i qxip/baresip-docker
+docker run -name baresip -ti --device=/dev/snd:/dev/snd qxip/baresip-docker
 ```
 
 ## Usage:
