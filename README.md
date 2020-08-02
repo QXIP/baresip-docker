@@ -1,7 +1,7 @@
 baresip-docker
 ==============
 
-Baresip docker container
+Baresip docker container for headless Call Testing
 
 ## Features:
 
@@ -13,17 +13,53 @@ Baresip docker container
 ## Install:
 ```
 docker pull qxip/baresip-docker
-docker run -name baresip -ti --device=/dev/snd:/dev/snd qxip/baresip-docker
+docker run -name baresip --rm -ti --device=/dev/snd:/dev/snd qxip/baresip-docker
 ```
 
-## Usage:
+## Usage
+
+##### CMD: Command Line Interface
+Register two SIP accounts to create a route loop initiating and terminating at our agent
+```
+/uanew sip:100@sip.host.com;auth_pass=mypassword;;answermode=auto
+/uanew sip:200@sip.host.com;auth_pass=mypassword;;answermode=auto
+```
+Dial from 100 to 200
+```
+d 250
+b
+```
+Check out the call statistics for both legs
+```
+sip:100-0x17efe40@172.17.0.2:59989: Call with sip:200@10.0.0.1 terminated (duration: 40 secs)
+
+audio           Transmit:     Receive:
+packets:           1798         1782
+avg. bitrate:      63.8         63.6  (kbit/s)
+errors:               0            0
+pkt.report:        1648         1632
+lost:                 0            0
+jitter:             0.0          0.1  (ms)
+
+sip:200-0x17efe40@172.17.0.2:59989: Call with sip:100@10.0.0.1 terminated (duration: 40 secs)
+
+audio           Transmit:     Receive:
+packets:           2094         1793
+avg. bitrate:      63.8         60.6  (kbit/s)
+errors:               0            0
+pkt.report:        1846         1641
+lost:                 0            0
+jitter:             0.0          0.0  (ms)
+```
+
 
 ##### HTTPD: Webserver User-Interface (UI) using HTTP Socket
 This module implements an HTTPD server for connecting to Baresip using HTTP Protocol. 
 You can use programs like CURL to connect to the command-line interface.
 ```
 # curl http://127.0.0.1:8000/?l
-
+```
+```
 <html>
 <head>
 <title>Baresip v0.4.11</title>
@@ -36,7 +72,6 @@ You can use programs like CURL to connect to the command-line interface.
 </pre>
 </body>
 </html>
-
 ```
 
 ##### CONS: Console User-Interface (UI) using UDP/TCP sockets
