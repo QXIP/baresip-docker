@@ -1,6 +1,8 @@
 baresip-docker
 ==============
 
+![Baresip Logo](https://raw.githubusercontent.com/baresip/baresip/master/share/logo.png)
+
 Baresip docker container for headless Call Testing
 
 ## Features:
@@ -88,3 +90,6 @@ l
 --- List of active calls (0): ---
 
 ```
+
+## Credits
+Baresip is Copyright (c) 2010 - 2020 Creytiv.com Distributed under BSD license
