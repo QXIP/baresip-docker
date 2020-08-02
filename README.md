@@ -7,9 +7,10 @@ Baresip docker container for headless Call Testing
 
 ## Features:
 
-* Baresip v0.4.18
+* Baresip v0.6.6
   - *HTTPD Module*
   - *CONS Module*
+  - *GST Module*
   - *ALSA Loopback (snd-aloop)*
 
 ## Install:
