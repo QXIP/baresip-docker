@@ -1,7 +1,7 @@
 baresip-docker
 ==============
 
-![Baresip Logo](https://raw.githubusercontent.com/baresip/baresip/master/share/logo.png)
+<img src="https://raw.githubusercontent.com/baresip/baresip/master/share/logo.png" width=300>
 
 Baresip docker container for headless Call Testing
 
