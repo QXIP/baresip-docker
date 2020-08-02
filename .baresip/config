@@ -19,7 +19,8 @@ sip_trans_bsize         128
 audio_dev               alsa
 audio_player            alsa,hw:0,0
 #audio_source            alsa,hw:0,1
-audio_source            gst,http://eclipse.galaxywebsolutions.com:7450/stream
+#audio_source            gst,http://eclipse.galaxywebsolutions.com:7450/stream
+audio_source            gst,file:///testcall.mp3
 audio_alert            alsa,hw:0,0
 audio_srate             8000-48000
 audio_channels          1-2

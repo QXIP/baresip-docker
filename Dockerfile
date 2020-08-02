@@ -32,11 +32,10 @@ RUN apt-get update \
 && apt-get -y install build-essential git wget curl \
 
 # Enable audio I/O (alsa, sndfile, gst)
-&& apt-get -y install libasound2-dev libasound2 libasound2-data module-init-tools libsndfile1-dev gstreamer0.10-alsa \
-#&& modprobe snd-dummy && modprobe snd-aloop \
+&& apt-get -y install libasound2-dev libasound2 libasound2-data module-init-tools libsndfile1-dev \
 
 # Install GStreamer
-&& apt-get -y install gstreamer0.10-alsa gstreamer0.10-tools gstreamer0.10-x gstreamer0.10-plugins-base gstreamer0.10-plugins-good libgstreamer-plugins-base0.10-0 libgstreamer-plugins-base0.10-dev libgstreamer0.10-0 libgstreamer0.10-dev
+&& apt-get install -y gstreamer-1.0* && apt-get install -y gstreamer1.0*
 
 # Install Libre
 RUN cd $TMP && wget $LIBREGIT/v$LIBRE/re-$LIBRE.tar.gz && tar zxvf re-$LIBRE.tar.gz && cd re-$LIBRE && make STATIC=yes && make install
@@ -50,10 +49,10 @@ RUN cd $TMP && wget $BARESIPGIT/v$BARESIP/baresip-$BARESIP.tar.gz && tar zxvf ba
 # Updating shared libs
 RUN ldconfig
 
-
 # Baresip Docker Slim (GIT)
 FROM ubuntu:16.04
 MAINTAINER L. Mangani <lorenzo.mangani@gmail.com>
+WORKDIR /root
 
 COPY --from=0 /usr/local/bin/baresip /usr/local/bin/baresip
 COPY --from=0 /usr/local/lib/libre.so /usr/local/lib/libre.so
@@ -63,16 +62,21 @@ COPY --from=0 /usr/local/lib/librem.a /usr/local/lib/librem.a
 COPY --from=0 /usr/local/lib/baresip /usr/local/lib/baresip
 COPY --from=0 /usr/local/share/baresip /usr/local/share/baresip
 
+COPY --from=0 /usr/lib/x86_64-linux-gnu/gstreamer-1.0 /usr/lib/x86_64-linux-gnu/gstreamer-1.0
+
+COPY --from=0 /usr/lib/x86_64-linux-gnu/libgst* /usr/lib/x86_64-linux-gnu/
+
+COPY ./testcall.mp3 /testcall.mp3
+
 COPY /.baresip $HOME/.baresip 
 COPY /.asoundrc $HOME/.asoundrc
 COPY ./dummy.sh /dummy.sh
 
 RUN ldconfig
 
-RUN apt-get update && apt-get --no-install-recommends -y install libasound2-dev libasound2 libasound2-data libsndfile1-dev gstreamer0.10-alsa alsa-oss alsa-utils module-init-tools  \
+RUN apt-get update && apt-get --no-install-recommends -y install libasound2-dev libasound2 libasound2-data libsndfile1-dev gstreamer0.10-alsa alsa-oss alsa-utils module-init-tools libgstreamer1.0-dev  \
  && ldconfig \
  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 
 RUN /dummy.sh
 
@@ -83,4 +87,4 @@ RUN /usr/local/bin/baresip -t -f $HOME/.baresip
 EXPOSE 5060 5061 10000-10020 8000 5555
 
 # Default Baresip run command arguments
-CMD ["baresip", "-d","-f","/root/.baresip"]
+CMD ["baresip", "-f","/.baresip"]
