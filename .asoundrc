@@ -1,4 +1,6 @@
 # ASOUND LOOPBACK DEVICE
+pcm.!default = null;
+
 # playback PCM device: using loopback subdevice 0,0
 pcm.amix {
   type dmix

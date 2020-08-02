@@ -1,7 +1,5 @@
-# Baresip Docker (GIT)
-
-FROM phusion/baseimage:latest
-#FROM ubuntu:14.04
+# Baresip Docker Sources (GIT)
+FROM ubuntu:16.04
 
 MAINTAINER L. Mangani <lorenzo.mangani@gmail.com>
 
@@ -14,20 +12,18 @@ ENV TMP /tmp
 CMD ["/sbin/my_init"]
 
 # Set locale to UTF8
-RUN locale-gen --no-purge en_US.UTF-8 && update-locale LANG=en_US.UTF-8 && dpkg-reconfigure locales
 ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
-# Use baseimage-docker's init system.
-# CMD ["/sbin/my_init"]
-
 # Set software versions to install
 ENV WEB http://www.creytiv.com/pub
-ENV LIBRE re-0.4.17 
-ENV LIBREM rem-0.4.7 
-ENV BARESIP baresip-0.4.20
-ENV BARESIPGIT https://github.com/alfredh/baresip.git
+ENV LIBRE 0.6.1
+ENV LIBREGIT https://github.com/creytiv/re/releases/download
+ENV LIBREM 0.6.0
+ENV LIBREMGIT https://github.com/creytiv/rem/releases/download
+ENV BARESIP 0.6.5
+ENV BARESIPGIT https://github.com/alfredh/baresip/releases/download
 
 # Update Apt
 RUN apt-get update \
@@ -37,48 +33,54 @@ RUN apt-get update \
 
 # Enable audio I/O (alsa, sndfile, gst)
 && apt-get -y install libasound2-dev libasound2 libasound2-data module-init-tools libsndfile1-dev gstreamer0.10-alsa \
-# RUN sudo modprobe snd-dummy
-# RUN sudo modprobe snd-aloop
+#&& modprobe snd-dummy && modprobe snd-aloop \
 
 # Install GStreamer
 && apt-get -y install gstreamer0.10-alsa gstreamer0.10-tools gstreamer0.10-x gstreamer0.10-plugins-base gstreamer0.10-plugins-good libgstreamer-plugins-base0.10-0 libgstreamer-plugins-base0.10-dev libgstreamer0.10-0 libgstreamer0.10-dev
 
 # Install Libre
-RUN cd $TMP && wget $WEB/$LIBRE.tar.gz && tar zxvf $LIBRE.tar.gz && cd $LIBRE && make && make install 
+RUN cd $TMP && wget $LIBREGIT/v$LIBRE/re-$LIBRE.tar.gz && tar zxvf re-$LIBRE.tar.gz && cd re-$LIBRE && make STATIC=yes && make install
 
 # Install Librem
-RUN cd $TMP && wget $WEB/$LIBREM.tar.gz && tar zxvf $LIBREM.tar.gz && cd $LIBREM && make && make install 
+RUN cd $TMP && wget $LIBREMGIT/v$LIBREM/rem-$LIBREM.tar.gz && tar zxvf rem-$LIBREM.tar.gz && cd rem-$LIBREM && make STATIC=yes && make install
 
-  # Install Baresip
-  # RUN cd $HOME && mkdir .baresip && chmod 775 .baresip
-  # RUN cd $TMP && wget $WEB/$BARESIP.tar.gz && tar zxvf $BARESIP.tar.gz
-  # RUN cd $TMP/$BARESIP && make && sudo make install
-  # RUN cd $TMP && rm -rf $BARESIP*
-
-# Install Baresip from GIT
-RUN cd $TMP && git clone $BARESIPGIT baresip && cd baresip && make && make install 
-
-# Install Configuration from self
-RUN cd $HOME && mkdir baresip && chmod 775 baresip \
-&& cd $TMP && git clone https://github.com/QXIP/baresip-docker.git \
-&& cp -R $TMP/baresip-docker/.baresip $HOME/ \
-&& cp $TMP/baresip-docker/.asoundrc $HOME/ \
-&& rm -rf $TMP/baresip-docker 
+# Install Librem
+RUN cd $TMP && wget $BARESIPGIT/v$BARESIP/baresip-$BARESIP.tar.gz && tar zxvf baresip-$BARESIP.tar.gz && cd baresip-$BARESIP && make STATIC=yes && make install
 
 # Updating shared libs
 RUN ldconfig
 
-# Test Baresip to initialize default config and Exit
-RUN baresip -t -f $HOME/.baresip
-#RUN sudo baresip -h | echo
-#RUN ls $HOME/.baresip
 
-# Clean up
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# Baresip Docker Slim (GIT)
+FROM ubuntu:16.04
+MAINTAINER L. Mangani <lorenzo.mangani@gmail.com>
+
+COPY --from=0 /usr/local/bin/baresip /usr/local/bin/baresip
+COPY --from=0 /usr/local/lib/libre.so /usr/local/lib/libre.so
+COPY --from=0 /usr/local/lib/libre.a /usr/local/lib/libre.a
+COPY --from=0 /usr/local/lib/librem.so /usr/local/lib/librem.so
+COPY --from=0 /usr/local/lib/librem.a /usr/local/lib/librem.a
+COPY --from=0 /usr/local/lib/baresip /usr/local/lib/baresip
+COPY --from=0 /usr/local/share/baresip /usr/local/share/baresip
+
+COPY /.baresip $HOME/.baresip 
+COPY /.asoundrc $HOME/.asoundrc
+COPY ./dummy.sh /dummy.sh
+
+RUN ldconfig
+
+RUN apt-get update && apt-get --no-install-recommends -y install libasound2-dev libasound2 libasound2-data libsndfile1-dev gstreamer0.10-alsa alsa-oss alsa-utils module-init-tools  \
+ && ldconfig \
+ && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+
+RUN /dummy.sh
+
+# Test Baresip to initialize default config and Exit
+RUN /usr/local/bin/baresip -t -f $HOME/.baresip
 
 # Ports for Service (SIP,RTP) and Control (HTTP,TCP)
 EXPOSE 5060 5061 10000-10020 8000 5555
 
 # Default Baresip run command arguments
 CMD ["baresip", "-d","-f","/root/.baresip"]
-#CMD baresip -d -f $HOME/.baresip && sleep 2 && curl http://127.0.0.1:8000/raw/?Rsip:root:root@127.0.0.1 && sleep 5 && curl http://127.0.0.1:8000/raw/?dbaresip@conference.sip2sip.info && sleep 60 && curl http://127.0.0.1:8000/raw/?bq
