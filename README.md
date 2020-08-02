@@ -28,9 +28,9 @@ Register two SIP accounts to create a route loop initiating and terminating at o
 /uanew sip:100@sip.host.com;auth_pass=mypassword;;answermode=auto
 /uanew sip:200@sip.host.com;auth_pass=mypassword;;answermode=auto
 ```
-Dial from 100 to 200
+Once registered, Dial your loop from 100 to 200
 ```
-d 250
+d 200
 b
 ```
 Check out the call statistics for both legs
