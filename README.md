@@ -62,26 +62,19 @@ jitter:             0.0          0.0  (ms)
 ##### Webserver User-Interface (UI) using HTTP Socket
 This module implements an HTTPD server for connecting to Baresip using HTTP Protocol. 
 You can use programs like CURL to connect to the command-line interface.
-```
-# curl http://127.0.0.1:8000/?/uanew%20sip%3Amyusername%40sip.domain.com%3Bauth_pass%3Dmypassword
-```
-```
-# curl http://127.0.0.1:8000/?l
-```
-```
-<html>
-<head>
-<title>Baresip v0.4.11</title>
-</head>
-<body>
-<pre>
 
---- List of active calls (0): ---
-
-</pre>
-</body>
-</html>
+Register two SIP accounts to create a route loop initiating and terminating at our agent
 ```
+# curl http://127.0.0.1:8000/?/uanew%20sip%3A100%40sip.host.com%3Bauth_pass%3Dmypassword%3Banswermode=auto
+# curl http://127.0.0.1:8000/?/uanew%20sip%3A200%40sip.host.com%3Bauth_pass%3Dmypassword%3Banswermode=auto
+```
+Once registered, Dial your loop from 100 to 200
+```
+curl http://127.0.0.1:8000/?/d%20200
+curl http://127.0.0.1:8000/?/b
+```
+Check out the call statistics for both legs
+
 
 -------------
 
