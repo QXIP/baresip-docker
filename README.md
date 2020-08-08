@@ -70,8 +70,8 @@ Register two SIP accounts to create a route loop initiating and terminating at o
 ```
 Once registered, Dial your loop from 100 to 200
 ```
-curl http://127.0.0.1:8000/?/d%20200
-curl http://127.0.0.1:8000/?/b
+# curl http://127.0.0.1:8000/?/d%20200
+# curl http://127.0.0.1:8000/?/b
 ```
 Check out the call statistics for both legs
 
@@ -88,9 +88,10 @@ Example, with the cons-module listening on default port 5555:
  
 ```
 # netcat -u 127.0.0.1 5555
-l
-
---- List of active calls (0): ---
+uanew sip:100@sip.host.com;auth_pass=mypassword;;answermode=auto
+uanew sip:200@sip.host.com;auth_pass=mypassword;;answermode=auto
+d 200
+b
 ```
 
 -------------
