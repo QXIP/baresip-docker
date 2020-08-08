@@ -63,6 +63,9 @@ jitter:             0.0          0.0  (ms)
 This module implements an HTTPD server for connecting to Baresip using HTTP Protocol. 
 You can use programs like CURL to connect to the command-line interface.
 ```
+# curl http://127.0.0.1:8000/?/uanew%20sip%3Amyusername%40sip.domain.com%3Bauth_pass%3Dmypassword
+```
+```
 # curl http://127.0.0.1:8000/?l
 ```
 ```
