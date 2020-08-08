@@ -25,8 +25,8 @@ docker run -name baresip --rm -ti --device=/dev/snd:/dev/snd qxip/baresip-docker
 ##### Command Line Interface
 Register two SIP accounts to create a route loop initiating and terminating at our agent
 ```
-/uanew sip:100@sip.host.com;auth_pass=mypassword;;answermode=auto
-/uanew sip:200@sip.host.com;auth_pass=mypassword;;answermode=auto
+/uanew sip:100@sip.host.com;auth_pass=mypassword;answermode=auto
+/uanew sip:200@sip.host.com;auth_pass=mypassword;answermode=auto
 ```
 Once registered, Dial your loop from 100 to 200
 ```
