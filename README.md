@@ -34,27 +34,6 @@ d 200
 b
 ```
 Check out the call statistics for both legs
-```
-sip:100-0x17efe40@172.17.0.2:59989: Call with sip:200@10.0.0.1 terminated (duration: 40 secs)
-
-audio           Transmit:     Receive:
-packets:           1798         1782
-avg. bitrate:      63.8         63.6  (kbit/s)
-errors:               0            0
-pkt.report:        1648         1632
-lost:                 0            0
-jitter:             0.0          0.1  (ms)
-
-sip:200-0x17efe40@172.17.0.2:59989: Call with sip:100@10.0.0.1 terminated (duration: 40 secs)
-
-audio           Transmit:     Receive:
-packets:           2094         1793
-avg. bitrate:      63.8         60.6  (kbit/s)
-errors:               0            0
-pkt.report:        1846         1641
-lost:                 0            0
-jitter:             0.0          0.0  (ms)
-```
 
 -------------
 
@@ -92,6 +71,32 @@ uanew sip:100@sip.host.com;auth_pass=mypassword;;answermode=auto
 uanew sip:200@sip.host.com;auth_pass=mypassword;;answermode=auto
 d 200
 b
+```
+
+-------------
+
+### Call Statistics
+Each let will produce RTCP based statistics. Since both user-agents are under Baresip control, they are reasonably reliable:
+```
+sip:100-0x17efe40@172.17.0.2:59989: Call with sip:200@10.0.0.1 terminated (duration: 40 secs)
+
+audio           Transmit:     Receive:
+packets:           1798         1782
+avg. bitrate:      63.8         63.6  (kbit/s)
+errors:               0            0
+pkt.report:        1648         1632
+lost:                 0            0
+jitter:             0.0          0.1  (ms)
+
+sip:200-0x17efe40@172.17.0.2:59989: Call with sip:100@10.0.0.1 terminated (duration: 40 secs)
+
+audio           Transmit:     Receive:
+packets:           2094         1793
+avg. bitrate:      63.8         60.6  (kbit/s)
+errors:               0            0
+pkt.report:        1846         1641
+lost:                 0            0
+jitter:             0.0          0.0  (ms)
 ```
 
 -------------
