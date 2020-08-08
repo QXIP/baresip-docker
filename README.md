@@ -73,10 +73,12 @@ d 200
 b
 ```
 
+Check out the call statistics for both legs
+
 -------------
 
 ### Call Statistics
-Each let will produce RTCP based statistics. Since both user-agents are under Baresip control, they are reasonably reliable:
+Upon hangup, each leg will produce RTCP based statistics. Since both user-agents are under Baresip control, statistics are reasonably reliable:
 ```
 sip:100-0x17efe40@172.17.0.2:59989: Call with sip:200@10.0.0.1 terminated (duration: 40 secs)
 
