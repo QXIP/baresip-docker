@@ -21,7 +21,7 @@ docker run -name baresip --rm -ti --device=/dev/snd:/dev/snd qxip/baresip-docker
 
 ## Usage
 
-### CMD
+### BARESIP CLI
 ##### Command Line Interface
 Register two SIP accounts to create a route loop initiating and terminating at our agent
 ```
@@ -37,7 +37,7 @@ Check out the call statistics for both legs
 
 -------------
 
-### HTTP
+### HTTP API
 ##### Webserver User-Interface (UI) using HTTP Socket
 This module implements an HTTPD server for connecting to Baresip using HTTP Protocol. 
 You can use programs like CURL to connect to the command-line interface.
@@ -57,7 +57,7 @@ Check out the call statistics for both legs
 
 -------------
 
-### CONS
+### CONSOLE
 ##### Console User-Interface (UI) using UDP/TCP sockets
  
 This module implements a simple console for connecting to Baresip via UDP or TCP-based sockets. 
